@@ -175,9 +175,8 @@ function init(){
     chips.appendChild(b);
   });
   document.getElementById('btn-reset').onclick=()=>{
-    chips.querySelectorAll('.pchip').forEach(b=>{if(b.dataset.code)b.classList.toggle('on',
-      ['NL_0NLRTM','DE_1DEHAM','PL_0PLGDN','ES_2ESVLC','EL_0GRPIR'].includes(b.dataset.code));});
-    state.ports=['NL_0NLRTM','DE_1DEHAM','PL_0PLGDN','ES_2ESVLC','EL_0GRPIR'];draw();};
+    chips.querySelectorAll('.pchip').forEach(b=>{if(b.dataset.code)b.classList.remove('on');});
+    state.ports=[];draw();};
   // selects
   const st=document.getElementById('sel-type');
   Object.entries(D.vessels).forEach(([c,l])=>st.add(new Option(l,c)));
