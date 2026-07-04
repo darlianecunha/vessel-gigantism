@@ -103,8 +103,8 @@ def build():
                     continue  # current year, incomplete by definition
                 nr = [get(vessel, "NR", rep, t) for t in qs]
                 gt = [get(vessel, "THS_GT", rep, t) for t in qs]
-                if any(v is None for v in nr + gt) or sum(nr) == 0:
-                    continue  # require all four quarters in both units
+                if any(v is None for v in nr + gt) or sum(nr) == 0 or sum(gt) == 0:
+                    continue  # require all four quarters in both units, GT > 0
                 s[y] = [sum(nr), round(sum(gt) * 1000 / sum(nr))]
             if len(s) >= 2:
                 series.setdefault(rep, {})[vessel] = s

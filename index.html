@@ -149,7 +149,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 let D=null, charts={};
 const PALETTE=['#0fb5ba','#0b2239','#e8a33d','#d6584f','#2fa36b','#7b5ea7','#3e7cb1','#c46aa0',
@@ -161,7 +161,7 @@ const yrs=s=>Object.keys(s).sort();
 fetch('data.json').then(r=>r.json()).then(d=>{D=d;init();});
 
 function seriesOf(port,type){return (D.series[port]||{})[type]||null;}
-function firstLast(s){const y=yrs(s);return [y[0],y[y.length-1]];}
+function firstLast(s){const y=yrs(s).filter(k=>s[k][0]>0&&s[k][1]>0);return [y[0],y[y.length-1]];}
 
 function init(){
   document.getElementById('f-date').textContent=D.meta.extracted;
@@ -245,8 +245,9 @@ function draw(){
   // 3. ranking
   const rows=[];
   Object.keys(D.ports).forEach(p=>{const s=seriesOf(p,type);if(!s)return;
-    const [a,b]=firstLast(s);if(b<=a)return;
-    rows.push({p,a,b,m:s[b][1]/s[a][1],g0:s[a][1],g1:s[b][1],n0:s[a][0],n1:s[b][0]});});
+    const [a,b]=firstLast(s);if(!a||!b||b<=a)return;
+    const m=s[b][1]/s[a][1];if(!isFinite(m))return;
+    rows.push({p,a,b,m,g0:s[a][1],g1:s[b][1],n0:s[a][0],n1:s[b][0]});});
   rows.sort((x,y)=>y.m-x.m);
   mk('c-rank','bar',{labels:rows.map(r=>D.ports[r.p]),datasets:[{label:'× growth of GT/call',
     data:rows.map(r=>+r.m.toFixed(2)),
