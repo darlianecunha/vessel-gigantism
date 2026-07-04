@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vessel Gigantism — three decades of growing ships in European ports (Eurostat)</title>
+<meta name="description" content="How the average vessel calling at major European ports grew from 1997 to today: GT per call by ship type and port, from official Eurostat quarterly statistics.">
+<meta property="og:title" content="Vessel Gigantism — three decades of growing ships">
+<meta property="og:description" content="Fewer ships, bigger ships: average vessel size per port call at major European ports, 1997 → present, from official Eurostat data.">
+<meta property="og:type" content="website">
+<style>
+:root{--navy:#0b2239;--navy2:#12304d;--teal:#0fb5ba;--teald:#0a8f93;--ink:#1c2b36;--muted:#5b6b78;
+--line:#e2e8ee;--bg:#f5f8fa;--card:#fff;--warn:#e8a33d;--radius:12px;
+--shadow:0 1px 3px rgba(11,34,57,.08),0 8px 24px rgba(11,34,57,.06);
+--font:"Segoe UI","Helvetica Neue",Arial,system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;font-family:var(--font);color:var(--ink);background:var(--bg)}
+a{color:var(--teald);text-decoration:none}
+header{background:linear-gradient(120deg,var(--navy),var(--navy2));color:#fff;padding:36px 20px 30px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.eyebrow{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
+h1{margin:0 0 10px;font-size:28px;line-height:1.25}
+header p.lead{margin:0;max-width:840px;color:#cfdae4;font-size:15px;line-height:1.6}
+main{padding:24px 0 10px}
+.hl-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 20px}
+@media(max-width:900px){.hl-row{grid-template-columns:1fr 1fr}}
+.hl{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+padding:14px 16px;box-shadow:var(--shadow)}
+.hl .tag{font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:4px}
+.hl .big{font-size:21px;font-weight:700;color:var(--navy)}
+.hl .big.up{color:#2fa36b}.hl .big.down{color:#d6584f}
+.hl .who{font-size:13px;color:var(--muted);margin-top:2px}
+.controls{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+padding:16px 18px;box-shadow:var(--shadow);margin-bottom:20px}
+.controls h4{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted)}
+.port-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pchip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 13px;
+font:600 13px var(--font);color:var(--muted);cursor:pointer;transition:all .15s}
+.pchip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+#btn-reset{background:var(--navy);border-color:var(--navy);color:#fff}
+#btn-reset:hover{background:var(--navy2)}
+.row2{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+select{font:14px var(--font);padding:7px 10px;border:1px solid var(--line);border-radius:8px;
+background:#fff;color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 20px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.box h3{margin:0 0 4px;font-size:16px;color:var(--navy)}
+.box .hint{margin:0 0 12px;font-size:13px;color:var(--muted)}
+.cwrap{position:relative;height:330px}
+.wide{grid-column:1/-1}.wide .cwrap{height:380px}
+table.data{width:100%;border-collapse:collapse;font-size:13.5px}
+table.data th{background:var(--navy);color:#fff;text-align:left;padding:8px 10px;font-weight:600}
+table.data td{padding:7px 10px;border-bottom:1px solid var(--line)}
+table.data tr:nth-child(even){background:#f2f6f8}
+td.metric{font-weight:600;color:var(--navy)}
+td.mult{font-weight:700;color:var(--teald)}
+.note{background:#fdf6e8;border-left:4px solid var(--warn);border-radius:6px;padding:14px 16px;
+font-size:13.5px;color:#5a4a28;line-height:1.55;margin:4px 0 24px}
+.note.blue{background:#eef6f7;border-left-color:var(--teal);color:#28414f}
+footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 0 30px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Eurostat official maritime statistics · 1997 → present</p>
+    <h1>Vessel Gigantism · Three decades of growing ships</h1>
+    <p class="lead">The average vessel calling at Europe's ports keeps getting bigger. This explorer
+    tracks <strong>gross tonnage per port call</strong> at major European ports since 1997, by ship
+    type, from official Eurostat quarterly statistics: fewer container ships carrying far more,
+    cruise ships multiplying in number <em>and</em> in size, and ports that jumped from feeder to
+    deep-water hub within a decade.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <div class="hl-row" id="highlights"></div>
+
+  <div class="controls">
+    <h4>Ports</h4>
+    <div class="port-chips" id="chips"><button class="pchip" id="btn-reset">Reset</button></div>
+    <div class="row2">
+      <div><h4>Ship type</h4><select id="sel-type"></select></div>
+      <div><h4>Focus port (fewer ships, bigger ships)</h4><select id="sel-focus"></select></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="box wide">
+      <h3 id="ts-title">Average vessel size per call</h3>
+      <p class="hint">Gross tonnage per arrival (annual GT ÷ annual arrivals), calendar years with
+      all four quarters reported. Select ports above.</p>
+      <div class="cwrap"><canvas id="c-series"></canvas></div>
+    </div>
+
+    <div class="box wide">
+      <h3 id="fb-title">Fewer ships, bigger ships</h3>
+      <p class="hint">Arrivals (bars, left axis) against average size per call (line, right axis)
+      for the focus port and selected ship type.</p>
+      <div class="cwrap" style="height:340px"><canvas id="c-fewer"></canvas></div>
+    </div>
+
+    <div class="box">
+      <h3>Who grew the most</h3>
+      <p class="hint" id="rk-hint">Growth multiple of GT per call, earliest complete year → latest.</p>
+      <div class="cwrap"><canvas id="c-rank"></canvas></div>
+    </div>
+
+    <div class="box">
+      <h3>Container consolidates, cruise multiplies</h3>
+      <p class="hint">EU-27: arrivals and vessel size indexed to 2005 = 100.</p>
+      <div class="cwrap"><canvas id="c-contrast"></canvas></div>
+    </div>
+
+    <div class="box wide">
+      <h3>The thirty-year ledger</h3>
+      <p class="hint" id="tb-hint">Per port and selected ship type: average size then and now.</p>
+      <div style="overflow-x:auto"><table class="data" id="tbl">
+        <thead><tr><th>Port</th><th>Period</th><th>GT/call (start)</th><th>GT/call (latest)</th>
+        <th>Growth</th><th>Arrivals (start → latest)</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="note blue"><strong>Method.</strong> Average vessel size per call = annual gross tonnage
+  (thousand GT × 1000) divided by annual arrivals, per port and ship type, all size classes
+  (Eurostat dataset <code>mar_tf_qm</code>). A calendar year is shown only when the port reported
+  all four quarters in both units. GT measures ship volume, not cargo carried.</div>
+
+  <div class="note"><strong>Entity changes.</strong> Antwerpen and Zeebrugge merged into
+  Antwerp-Bruges in 2022, and Le Havre and Rouen report as HAROPA from 2022; they are kept as
+  separate series because the port perimeter changed. The EU-27 aggregate starts in 2005.
+  Series start years differ by port because national reporting joined Eurostat at different dates.</div>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Data: <a href="https://ec.europa.eu/eurostat/databrowser/view/mar_tf_qm/default/table?lang=en"
+      target="_blank" rel="noopener">Eurostat mar_tf_qm</a> · extracted <span id="f-date"></span> ·
+      reproducible with <code>build_data.py</code></div>
+    <div>Developed by <a href="https://cunha-data-science.vercel.app/" target="_blank" rel="noopener">
+      Darliane Ribeiro Cunha, PhD</a></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script>
+let D=null, charts={};
+const PALETTE=['#0fb5ba','#0b2239','#e8a33d','#d6584f','#2fa36b','#7b5ea7','#3e7cb1','#c46aa0',
+'#8a9a5b','#b0713a','#4f6d7a','#9a3b5a','#5b8c5a','#856088','#2e6f95','#a67c00','#6b4226','#3c887e','#888'];
+const state={ports:['NL_0NLRTM','DE_1DEHAM','PL_0PLGDN','ES_2ESVLC','EL_0GRPIR'],type:'ODC_CNT',focus:'DE_1DEHAM'};
+const fmt=n=>n.toLocaleString('en-GB');
+const yrs=s=>Object.keys(s).sort();
+
+fetch('data.json').then(r=>r.json()).then(d=>{D=d;init();});
+
+function seriesOf(port,type){return (D.series[port]||{})[type]||null;}
+function firstLast(s){const y=yrs(s);return [y[0],y[y.length-1]];}
+
+function init(){
+  document.getElementById('f-date').textContent=D.meta.extracted;
+  // chips
+  const chips=document.getElementById('chips');
+  Object.entries(D.ports).forEach(([code,name],i)=>{
+    const b=document.createElement('button');b.className='pchip';b.textContent=name;b.dataset.code=code;
+    if(state.ports.includes(code))b.classList.add('on');
+    b.onclick=()=>{b.classList.toggle('on');
+      state.ports=[...chips.querySelectorAll('.pchip.on')].map(x=>x.dataset.code);draw();};
+    chips.appendChild(b);
+  });
+  document.getElementById('btn-reset').onclick=()=>{
+    chips.querySelectorAll('.pchip').forEach(b=>{if(b.dataset.code)b.classList.toggle('on',
+      ['NL_0NLRTM','DE_1DEHAM','PL_0PLGDN','ES_2ESVLC','EL_0GRPIR'].includes(b.dataset.code));});
+    state.ports=['NL_0NLRTM','DE_1DEHAM','PL_0PLGDN','ES_2ESVLC','EL_0GRPIR'];draw();};
+  // selects
+  const st=document.getElementById('sel-type');
+  Object.entries(D.vessels).forEach(([c,l])=>st.add(new Option(l,c)));
+  st.value=state.type;st.onchange=()=>{state.type=st.value;draw();};
+  const sf=document.getElementById('sel-focus');
+  Object.entries(D.ports).forEach(([c,l])=>sf.add(new Option(l,c)));
+  sf.value=state.focus;sf.onchange=()=>{state.focus=sf.value;draw();};
+  highlights();draw();
+}
+
+function highlights(){
+  const H=document.getElementById('highlights');const cards=[];
+  const eu=seriesOf('EU27_2020','ODC_CNT');
+  if(eu){const [y0,y1]=firstLast(eu);
+    cards.push({tag:'EU-27 container ships '+y0+' → '+y1,
+      big:'×'+(eu[y1][1]/eu[y0][1]).toFixed(1),cls:'',who:'average size per call: '+fmt(eu[y0][1])+' → '+fmt(eu[y1][1])+' GT'});
+    const chg=(eu[y1][0]/eu[y0][0]-1)*100;
+    cards.push({tag:'EU-27 container arrivals '+y0+' → '+y1,
+      big:(chg>0?'+':'')+chg.toFixed(0)+'%',cls:chg<0?'down':'up',
+      who:fmt(eu[y0][0])+' → '+fmt(eu[y1][0])+' calls a year: fewer, bigger ships'});}
+  // steepest container multiplier among ports
+  let best=null;
+  Object.keys(D.ports).forEach(p=>{if(p==='EU27_2020')return;
+    const s=seriesOf(p,'ODC_CNT');if(!s)return;const [a,b]=firstLast(s);
+    const m=s[b][1]/s[a][1];if(!best||m>best.m)best={p,a,b,m};});
+  if(best)cards.push({tag:'Steepest climb (container)',big:'×'+best.m.toFixed(1),cls:'',
+    who:D.ports[best.p]+', '+best.a+' → '+best.b});
+  const cr=seriesOf('EU27_2020','ODC_PCRU');
+  if(cr){const [y0,y1]=firstLast(cr);
+    cards.push({tag:'EU-27 cruise '+y0+' → '+y1,big:'×'+(cr[y1][1]/cr[y0][1]).toFixed(1)+' size, '+
+      (cr[y1][0]/cr[y0][0]).toFixed(1)+'× calls',cls:'',who:'the one segment growing both ways'});}
+  H.innerHTML=cards.map(c=>'<div class="hl"><div class="tag">'+c.tag+'</div><div class="big '+c.cls+'">'
+    +c.big+'</div><div class="who">'+c.who+'</div></div>').join('');
+}
+
+function allYears(list){const set=new Set();list.forEach(s=>yrs(s).forEach(y=>set.add(y)));
+  return [...set].sort();}
+
+function draw(){
+  const type=state.type,tname=D.vessels[type];
+  // 1. time series
+  const sel=state.ports.filter(p=>seriesOf(p,type));
+  const years=allYears(sel.map(p=>seriesOf(p,type)));
+  mk('c-series','line',{labels:years,datasets:sel.map((p,i)=>{const s=seriesOf(p,type);
+    return {label:D.ports[p],data:years.map(y=>s[y]?s[y][1]:null),borderColor:PALETTE[i%PALETTE.length],
+      backgroundColor:PALETTE[i%PALETTE.length],spanGaps:true,pointRadius:0,pointHitRadius:8,borderWidth:2.2,tension:.25};})},
+    {plugins:{legend:{position:'bottom',labels:{boxWidth:14,font:{size:12}}}},
+     scales:{y:{title:{display:true,text:'GT per call'},ticks:{callback:v=>fmt(v)}}}});
+  document.getElementById('ts-title').textContent='Average vessel size per call · '+tname;
+
+  // 2. fewer/bigger dual axis
+  const fs=seriesOf(state.focus,type);
+  const fy=fs?yrs(fs):[];
+  mk('c-fewer','bar',{labels:fy,datasets:[
+    {type:'bar',label:'Arrivals',data:fy.map(y=>fs[y][0]),backgroundColor:'rgba(11,34,57,.28)',yAxisID:'y'},
+    {type:'line',label:'GT per call',data:fy.map(y=>fs[y][1]),borderColor:'#0fb5ba',backgroundColor:'#0fb5ba',
+     yAxisID:'y2',pointRadius:0,pointHitRadius:8,borderWidth:2.5,tension:.25}]},
+    {plugins:{legend:{position:'bottom',labels:{boxWidth:14,font:{size:12}}}},
+     scales:{y:{title:{display:true,text:'arrivals / year'},ticks:{callback:v=>fmt(v)}},
+       y2:{position:'right',grid:{drawOnChartArea:false},title:{display:true,text:'GT per call'},
+           ticks:{callback:v=>fmt(v)}}}});
+  document.getElementById('fb-title').textContent='Fewer ships, bigger ships · '
+    +D.ports[state.focus]+' · '+tname;
+
+  // 3. ranking
+  const rows=[];
+  Object.keys(D.ports).forEach(p=>{const s=seriesOf(p,type);if(!s)return;
+    const [a,b]=firstLast(s);if(b<=a)return;
+    rows.push({p,a,b,m:s[b][1]/s[a][1],g0:s[a][1],g1:s[b][1],n0:s[a][0],n1:s[b][0]});});
+  rows.sort((x,y)=>y.m-x.m);
+  mk('c-rank','bar',{labels:rows.map(r=>D.ports[r.p]),datasets:[{label:'× growth of GT/call',
+    data:rows.map(r=>+r.m.toFixed(2)),
+    backgroundColor:rows.map(r=>r.p==='EU27_2020'?'#e8a33d':'#0fb5ba')}]},
+    {indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const r=rows[c.dataIndex];
+      return '×'+r.m.toFixed(1)+'  ('+r.a+': '+fmt(r.g0)+' GT → '+r.b+': '+fmt(r.g1)+' GT)';}}}},
+     scales:{x:{title:{display:true,text:'growth multiple'}}}});
+  document.getElementById('rk-hint').textContent='Growth multiple of GT per call, earliest complete year → latest · '+tname;
+
+  // 4. contrast (fixed: EU CONT vs CRU indexed)
+  if(!charts['c-contrast']){
+    const c=seriesOf('EU27_2020','ODC_CNT'),k=seriesOf('EU27_2020','ODC_PCRU');
+    if(c&&k){const ys2=yrs(c).filter(y=>k[y]);const b=ys2[0];
+      const ix=(s,y,i)=>+(s[y][i]/s[b][i]*100).toFixed(1);
+      mk('c-contrast','line',{labels:ys2,datasets:[
+        {label:'Container · size/call',data:ys2.map(y=>ix(c,y,1)),borderColor:'#0b2239',backgroundColor:'#0b2239',pointRadius:0,borderWidth:2.2,tension:.25},
+        {label:'Container · arrivals',data:ys2.map(y=>ix(c,y,0)),borderColor:'#0b2239',borderDash:[5,4],backgroundColor:'#0b2239',pointRadius:0,borderWidth:1.8,tension:.25},
+        {label:'Cruise · size/call',data:ys2.map(y=>ix(k,y,1)),borderColor:'#0fb5ba',backgroundColor:'#0fb5ba',pointRadius:0,borderWidth:2.2,tension:.25},
+        {label:'Cruise · arrivals',data:ys2.map(y=>ix(k,y,0)),borderColor:'#0fb5ba',borderDash:[5,4],backgroundColor:'#0fb5ba',pointRadius:0,borderWidth:1.8,tension:.25}]},
+        {plugins:{legend:{position:'bottom',labels:{boxWidth:14,font:{size:12}}}},
+         scales:{y:{title:{display:true,text:'index, '+b+' = 100'}}}});}}
+
+  // 5. table
+  const tb=document.querySelector('#tbl tbody');
+  tb.innerHTML=rows.map(r=>{const chg=(r.n1/r.n0-1)*100;
+    return '<tr><td class="metric">'+D.ports[r.p]+'</td><td>'+r.a+' → '+r.b+'</td>'+
+    '<td>'+fmt(r.g0)+'</td><td>'+fmt(r.g1)+'</td><td class="mult">×'+r.m.toFixed(1)+'</td>'+
+    '<td>'+fmt(r.n0)+' → '+fmt(r.n1)+' ('+(chg>0?'+':'')+chg.toFixed(0)+'%)</td></tr>';}).join('');
+  document.getElementById('tb-hint').textContent='Per port · '+tname+' · average size then and now.';
+}
+
+function mk(id,kind,data,opts){
+  if(charts[id])charts[id].destroy();
+  charts[id]=new Chart(document.getElementById(id),{type:kind,data,
+    options:Object.assign({responsive:true,maintainAspectRatio:false,interaction:{mode:'nearest',intersect:false}},opts)});
+}
+</script>
+</body>
+</html>
