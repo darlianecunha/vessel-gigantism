@@ -126,6 +126,16 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
     </div>
   </div>
 
+  <div class="grid">
+    <div class="box wide">
+      <h3 id="dd-title">Two decades side by side · 2005 → 2024</h3>
+      <p class="hint">Average vessel size per call in 2005 (light) against 2024 (dark), every port
+      with complete data in both years, sorted by 2024. The EU-27 aggregate is included: both years
+      are complete for all series shown.</p>
+      <div class="cwrap" style="height:420px"><canvas id="c-decades"></canvas></div>
+    </div>
+  </div>
+
   <div class="note blue"><strong>Method.</strong> Average vessel size per call = annual gross tonnage
   (thousand GT × 1000) divided by annual arrivals, per port and ship type, all size classes
   (Eurostat dataset <code>mar_tf_qm</code>). A calendar year is shown only when the port reported
@@ -269,7 +279,22 @@ function draw(){
         {plugins:{legend:{position:'bottom',labels:{boxWidth:14,font:{size:12}}}},
          scales:{y:{title:{display:true,text:'index, '+b+' = 100'}}}});}}
 
-  // 5. table
+  // 5. two decades side by side (2005 vs 2024, ports with both years)
+  var dd=[];
+  Object.keys(D.ports).forEach(p=>{const s=seriesOf(p,type);
+    if(s&&s['2005']&&s['2024']&&s['2005'][1]>0)
+      dd.push({p,g05:s['2005'][1],g24:s['2024'][1]});});
+  dd.sort((x,y)=>y.g24-x.g24);
+  mk('c-decades','bar',{labels:dd.map(r=>D.ports[r.p]),datasets:[
+    {label:'2005',data:dd.map(r=>r.g05),backgroundColor:'rgba(15,181,186,.35)',borderRadius:3},
+    {label:'2024',data:dd.map(r=>r.g24),backgroundColor:'#0b2239',borderRadius:3}]},
+    {indexAxis:'y',plugins:{legend:{position:'bottom',labels:{boxWidth:14,font:{size:12}}},
+      tooltip:{callbacks:{label:c=>{const r=dd[c.dataIndex];
+        return c.dataset.label+': '+fmt(c.raw)+' GT/call (×'+(r.g24/r.g05).toFixed(1)+' in 19 years)';}}}},
+     scales:{x:{title:{display:true,text:'GT per call'},ticks:{callback:v=>fmt(v)}}}});
+  document.getElementById('dd-title').textContent='Two decades side by side · 2005 → 2024 · '+tname;
+
+  // 6. table
   const tb=document.querySelector('#tbl tbody');
   tb.innerHTML=rows.map(r=>{const chg=(r.n1/r.n0-1)*100;
     return '<tr><td class="metric">'+D.ports[r.p]+'</td><td>'+r.a+' → '+r.b+'</td>'+
