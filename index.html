@@ -210,7 +210,7 @@ function highlights(){
   // steepest container multiplier among ports
   let best=null;
   Object.keys(D.ports).forEach(p=>{if(p==='EU27_2020')return;
-    const s=seriesOf(p,'ODC_CNT');if(!s)return;const [a,b]=firstLast(s);
+    const s=seriesOf(p,'ODC_CNT');if(!s)return;let [a,b]=firstLast(s);if(eu){const [e0,e1]=firstLast(eu);if(s[e0]&&s[e1]&&s[e0][1]>0){a=e0;b=e1;}}
     const m=s[b][1]/s[a][1];if(!best||m>best.m)best={p,a,b,m};});
   if(best)cards.push({tag:'Steepest climb (container)',big:'×'+best.m.toFixed(1),cls:'',
     who:D.ports[best.p]+', '+best.a+' → '+best.b});
